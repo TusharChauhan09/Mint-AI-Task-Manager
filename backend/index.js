@@ -18,6 +18,7 @@ import { createTask } from "./router/task.route.js";
 
 import { verifyToken } from "./lib/auth.lib.js";
 
+import { check } from "./router/check.route.js";
 
 const app = express();
 
@@ -27,14 +28,19 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.post("/signup", signup);
-
 app.post("/login", login);
+app.get("/check", verifyToken , check);
 
-// app.use(verifyToken);
-
+// Protected routes
+app.use(verifyToken);
 app.post("/logout", logout);
 
 app.post("/createTask", createTask);

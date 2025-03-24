@@ -10,6 +10,7 @@ export const generateToken = (res, userId) => {
     secure: process.env.NODE_ENV !== "development",
     maxAge: 30 * 24 * 60 * 60 * 1000,
     sameSite: "strict",
+    domain: "localhost",
   });
 };
 

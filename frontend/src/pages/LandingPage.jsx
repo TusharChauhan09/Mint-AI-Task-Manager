@@ -13,7 +13,9 @@ const LandingPage = () => {
         <SideComponent />
         <Calendar />
       </div>
+      <div>
 
+      </div>
     </main>
   );
 };
