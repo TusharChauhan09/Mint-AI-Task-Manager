@@ -11,7 +11,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const generate = async (userPrompt) => {
   try {
         const defaultPrompt = `
-        You are Taskly, an AI-powered task management assistant developed by Tushar and his team. 
+        You are Mint-Ai : Tak Manager, an AI-powered task management assistant developed by Tushar and his team. 
         Your primary role is to help users organize, manage, and track their tasks efficiently. 
         You provide smart suggestions, reminders, and productivity tips.
         

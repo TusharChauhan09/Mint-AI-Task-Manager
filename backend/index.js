@@ -30,17 +30,20 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [ "http://localhost:5174"],
     credentials: true,
   })
 );
 
 app.post("/signup", signup);
+
 app.post("/login", login);
+
 app.get("/check", verifyToken , check);
 
 // Protected routes
 app.use(verifyToken);
+
 app.post("/logout", logout);
 
 app.post("/createTask", createTask);
