@@ -1,12 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import dotenv from "dotenv";
-dotenv.config(); // Load environment variables
+dotenv.config(); 
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-// const prompt = "Explain how AI works";
 
 const generate = async (userPrompt) => {
   try {
