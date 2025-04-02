@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { axiosInstance } from "../lib/axios";
 import Button from "./Button";
 import toast from "react-hot-toast";
+import { authStore } from "../store/authStore";
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
@@ -10,6 +11,7 @@ const TaskManager = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [error, setError] = useState(null);
+  const { authUser: user } = authStore();
 
   useEffect(() => {
     fetchTasks();
@@ -19,7 +21,9 @@ const TaskManager = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axiosInstance.get("/tasks");
+      const response = await axiosInstance.get("/tasks", {
+        params: { userId: user._id },
+      });
       if (response.data.success) {
         setTasks(response.data.tasks);
       } else {
@@ -43,6 +47,7 @@ const TaskManager = () => {
       const response = await axiosInstance.post("/task", {
         title: title.trim(),
         description: description.trim(),
+        userId: user._id,
       });
 
       if (response.data.success) {
@@ -129,7 +134,9 @@ const TaskManager = () => {
             <h2 className="font-bold text-lg bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               Task Manager
             </h2>
-            <p className="text-xs text-emerald-700">Organize your day</p>
+            <p className="text-xs text-emerald-700">
+              {user ? `${user.name}'s Tasks` : 'Organize your day'}
+            </p>
           </div>
         </div>
         <div className="ml-auto px-3 py-1 bg-emerald-100 text-emerald-800 text-xs rounded-full">

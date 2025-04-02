@@ -1,9 +1,6 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.MODE === "development" ? "http://localhost:5000" : "nan",
+  baseURL: import.meta.env.VITE_REACT_APP_BACKEND_URL || "http://localhost:5000",
   withCredentials: true,
 });
-
-
-

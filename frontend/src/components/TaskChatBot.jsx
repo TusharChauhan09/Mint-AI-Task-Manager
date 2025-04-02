@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { axiosInstance } from "../lib/axios";
 import ReactMarkdown from "react-markdown";
 import Button from "./Button";
+import { authStore } from "../store/authStore";
 
 const TaskChatBot = () => {
   const [messages, setMessages] = useState([
@@ -15,6 +16,7 @@ const TaskChatBot = () => {
   const [error, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
   const messagesEndRef = useRef(null);
+  const { authUser: user } = authStore();
 
   useEffect(() => {
     fetchTasks();
@@ -73,7 +75,7 @@ const TaskChatBot = () => {
       return "You don't have any tasks scheduled for today.";
     }
 
-    let response = "Here are your tasks for today:\n\n";
+    let response = `Here are your tasks for today${user ? `, ${user.name}` : ''}:\n\n`;
     todaysTasks.forEach((task, index) => {
       response += `${index + 1}. **${task.title}** - ${task.completed ? '✅ Completed' : '⏳ Pending'}\n   ${task.description}\n\n`;
     });
@@ -86,7 +88,7 @@ const TaskChatBot = () => {
       return "You don't have any tasks yet.";
     }
 
-    let response = "Here are all your tasks:\n\n";
+    let response = `Here are all your tasks${user ? `, ${user.name}` : ''}:\n\n`;
     tasks.forEach((task, index) => {
       response += `${index + 1}. **${task.title}** - ${task.completed ? '✅ Completed' : '⏳ Pending'}\n   ${task.description}\n\n`;
     });
@@ -101,7 +103,7 @@ const TaskChatBot = () => {
       return "You haven't completed any tasks yet.";
     }
 
-    let response = "Here are your completed tasks:\n\n";
+    let response = `Here are your completed tasks${user ? `, ${user.name}` : ''}:\n\n`;
     completedTasks.forEach((task, index) => {
       response += `${index + 1}. **${task.title}**\n   ${task.description}\n\n`;
     });
@@ -116,7 +118,7 @@ const TaskChatBot = () => {
       return "You don't have any pending tasks. Great job!";
     }
 
-    let response = "Here are your pending tasks:\n\n";
+    let response = `Here are your pending tasks${user ? `, ${user.name}` : ''}:\n\n`;
     pendingTasks.forEach((task, index) => {
       response += `${index + 1}. **${task.title}**\n   ${task.description}\n\n`;
     });
@@ -210,6 +212,7 @@ const TaskChatBot = () => {
           const taskRes = await axiosInstance.post("/task", {
             title,
             description,
+            userId: user?._id
           });
 
           if (taskRes.data.success) {
@@ -276,7 +279,9 @@ const TaskChatBot = () => {
             <h2 className="font-bold text-lg bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               Mint AI Assistant
             </h2>
-            <p className="text-xs text-emerald-700">Your task management companion</p>
+            <p className="text-xs text-emerald-700">
+              {user ? `${user.name}'s task management companion` : 'Your task management companion'}
+            </p>
           </div>
         </div>
         <div className="ml-auto px-3 py-1 bg-emerald-100 text-emerald-800 text-xs rounded-full">
@@ -350,23 +355,26 @@ const TaskChatBot = () => {
                        transition-all duration-300 pl-12"
               disabled={loading}
             />
-            <svg
-              className="absolute left-4 top-3.5 h-5 w-5 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-              />
-            </svg>
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-emerald-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
+              </svg>
+            </div>
           </div>
           <Button
-            onClick={handleSubmit}
-            disabled={loading || !input.trim()}
+            type="submit"
+            disabled={!input.trim() || loading}
             loading={loading}
             className="ml-2 px-4 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 
                      text-white rounded-xl font-medium shadow-md
@@ -375,31 +383,21 @@ const TaskChatBot = () => {
                      disabled:opacity-50 disabled:cursor-not-allowed
                      transform transition-all duration-300"
           >
-            {loading ? (
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-              </div>
-            ) : (
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            )}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 5l7 7-7 7M5 5l7 7-7 7"
+              />
+            </svg>
           </Button>
-        </div>
-        <div className="mt-2 text-xs text-gray-500">
-          <p>
-            Try asking: "What are my today's tasks?", "Show all tasks", or "Mark task 'Meeting' as completed"
-          </p>
         </div>
       </form>
     </div>
