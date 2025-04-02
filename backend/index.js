@@ -16,6 +16,8 @@ import { logout } from "./router/logout.route.js";
 
 import { createTask } from "./router/task.route.js";
 
+import { getTasks, getTaskById, updateTaskStatus, deleteTask } from "./router/gettask.route.js";
+
 import { verifyToken } from "./lib/auth.lib.js";
 
 import { check } from "./router/check.route.js";
@@ -46,7 +48,13 @@ app.use(verifyToken);
 
 app.post("/logout", logout);
 
-app.post("/createTask", createTask);
+app.post("/task", createTask);
+
+// Task management routes
+app.get("/tasks", getTasks);
+app.get("/tasks/:taskId", getTaskById);
+app.patch("/tasks/:taskId/status", updateTaskStatus);
+app.delete("/tasks/:taskId", deleteTask);
 
 app.post("/chatGen", chatGen);
 

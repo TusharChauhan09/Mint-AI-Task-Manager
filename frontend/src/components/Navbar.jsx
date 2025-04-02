@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import LogOut from "./LogOut";
+import { authStore } from "../store/authStore";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { authUser } = authStore();
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
 
   return (
     <nav className="bg-white border-b border-gray-100 fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Logo and Brand */}
           <div className="flex items-center lg:ml-6">
             <Link to="/" className="flex items-center">
               <div className="w-8 h-8 bg-emerald-400 rounded-lg flex items-center justify-center">
@@ -20,10 +29,8 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center justify-end flex-1 lg:mr-6">
             <div className="flex items-center space-x-8">
-              {/* home */}
               <Link
                 to="/"
                 className="text-gray-600 hover:text-emerald-600 transition-colors"
@@ -31,34 +38,36 @@ const Navbar = () => {
                 Home
               </Link>
 
-              {/* about */}
-              <Link
-                to="/about"
-                className="text-gray-600 hover:text-emerald-600 transition-colors"
+              <button
+                onClick={scrollToTop}
+                className="text-gray-600 hover:text-emerald-600 transition-colors bg-transparent border-none cursor-pointer"
               >
                 About
-              </Link>
+              </button>
 
-              {/* login */}
-              <Link
-                to="/logout"
-                className="text-gray-600 hover:text-emerald-600 transition-colors"
-              >
-                Log In
-              </Link>
+              {authUser ? (
+                <LogOut />
+              ) : (
+                <Link
+                  to="/signin"
+                  className="text-gray-600 hover:text-emerald-600 transition-colors"
+                >
+                  Log In
+                </Link>
+              )}
 
-              {/* get started */}
-              <Link
-                to="/"
-                className="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 
-                         transition-colors duration-300 font-medium shadow-sm hover:shadow-md"
-              >
-                Get Started
-              </Link>
+              {!authUser && (
+                <Link
+                  to="/signup"
+                  className="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 
+                           transition-colors duration-300 font-medium shadow-sm hover:shadow-md"
+                >
+                  Get Started
+                </Link>
+              )}
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -91,11 +100,9 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
-            {/* Home */}
             <Link
               to="/"
               className="block px-3 py-2 rounded-md text-gray-600 hover:text-emerald-600 hover:bg-gray-50"
@@ -103,29 +110,37 @@ const Navbar = () => {
               Home
             </Link>
 
-            {/* About */}
-            <Link
-              to="/about"
-              className="block px-3 py-2 rounded-md text-gray-600 hover:text-emerald-600 hover:bg-gray-50"
+            <button
+              onClick={() => {
+                scrollToTop();
+                setIsOpen(false);
+              }}
+              className="w-full text-left block px-3 py-2 rounded-md text-gray-600 hover:text-emerald-600 hover:bg-gray-50 bg-transparent border-none cursor-pointer"
             >
               About
-            </Link>
+            </button>
 
-            {/* Login */}
-            <Link
-              to="/logout"
-              className="block px-3 py-2 rounded-md text-gray-600 hover:text-emerald-600 hover:bg-gray-50"
-            >
-              Log In
-            </Link>
+            {authUser ? (
+              <div className="px-3 py-2">
+                <LogOut />
+              </div>
+            ) : (
+              <Link
+                to="/signin"
+                className="block px-3 py-2 rounded-md text-gray-600 hover:text-emerald-600 hover:bg-gray-50"
+              >
+                Log In
+              </Link>
+            )}
 
-            {/* Get Started */}
-            <Link
-              to="/"
-              className="block px-3 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
-            >
-              Get Started
-            </Link>
+            {!authUser && (
+              <Link
+                to="/signup"
+                className="block px-3 py-2 rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
+              >
+                Get Started
+              </Link>
+            )}
           </div>
         </div>
       )}

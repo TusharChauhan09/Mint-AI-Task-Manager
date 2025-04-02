@@ -14,6 +14,9 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import { authStore } from "./store/authStore";
 import { useEffect } from "react";
+import TaskManager from "./components/TaskManager";
+import LogOut from "./components/LogOut";
+
 
 // import About from "./pages/About";
 // import Login from "./pages/Login";
@@ -51,8 +54,14 @@ const App = () => {
               path="/signin"
               element={!authUser ? <SignIn /> : <Navigate to="/" />}
             />
-            {/* <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} /> */}
+            <Route
+              path="/task"
+              element={authUser ? <TaskManager /> : <Navigate to="/signin" />}
+            />
+            <Route
+              path="/logout"
+              element={authUser ? <LogOut /> : <Navigate to="/signin" />}
+            />
             <Route
               path="/TextGenerator"
               element={authUser ? <TextGenerator /> : <Navigate to="/signin" />}
