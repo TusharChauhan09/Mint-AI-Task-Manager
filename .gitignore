@@ -1,0 +1,101 @@
+# Node.js dependencies
+node_modules/
+*/node_modules/
+**/node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+build/
+dist/
+*/build/
+*/dist/
+.next/
+.nuxt/
+.output/
+out/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.env
+.env.local
+.env.development
+.env.test
+.env.production
+# Frontend environment files
+frontend/.env
+frontend/.env.*
+frontend/*.env
+# Backend environment files
+backend/.env
+backend/.env.*
+backend/*.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+.jest/
+jest-coverage/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.sublime-*
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Debug
+.debug/
+debug.log
+
+# Temporary files
+tmp/
+temp/
+.temp/
+.tmp/
+.cache/
+
+# MongoDB data directory (if using local MongoDB)
+data/db/
+
+# Backend specific
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/logs/*
+!backend/logs/.gitkeep
+
+# Frontend specific
+frontend/.cache/
+frontend/public/build/
+frontend/.eslintcache
+
+# Misc
+.DS_Store
+*.pem
+.eslintcache
+.stylelintcache
