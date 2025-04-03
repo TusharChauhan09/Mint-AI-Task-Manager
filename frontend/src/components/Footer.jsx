@@ -3,9 +3,9 @@ import Card from "./Card";
 
 const Footer = () => {
   const teamMembers = [
-    { name: "John Doe", registrationNo: "123" },
-    { name: "Jane Smith", registrationNo: "123" },
-    { name: "Alex Johnson", registrationNo: "123" }
+    { name: "Tushar", registrationNo: "12310419" },
+    { name: "Vansh", registrationNo: "12309113" },
+    { name: "Anurag", registrationNo: "12307669" }
   ];
 
   return (

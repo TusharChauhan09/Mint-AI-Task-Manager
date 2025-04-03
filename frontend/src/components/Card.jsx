@@ -9,7 +9,7 @@ const Card = ({ name, registrationNo }) => {
         </span>
       </div>
       <h3 className="text-lg font-semibold text-gray-800 mb-2">{name}</h3>
-      <p className="text-sm text-gray-600">Registration: {registrationNo}</p>
+      <p className="text-sm text-gray-600">Registration No. : {registrationNo}</p>
     </div>
   );
 };
