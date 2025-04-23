@@ -16,7 +16,12 @@ import { logout } from "./router/logout.route.js";
 
 import { createTask } from "./router/task.route.js";
 
-import { getTasks, getTaskById, updateTaskStatus, deleteTask } from "./router/gettask.route.js";
+import {
+  getTasks,
+  getTaskById,
+  updateTaskStatus,
+  deleteTask,
+} from "./router/gettask.route.js";
 
 import { verifyToken } from "./lib/auth.lib.js";
 
@@ -32,7 +37,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: [ "http://localhost:5174","http://localhost:5173"],
+    origin: [process.env.FRONTEND_URL],
     credentials: true,
   })
 );
@@ -41,7 +46,7 @@ app.post("/signup", signup);
 
 app.post("/login", login);
 
-app.get("/check", verifyToken , check);
+app.get("/check", verifyToken, check);
 
 // Protected routes
 app.use(verifyToken);

@@ -14,9 +14,12 @@ const TextGenerator = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post("http://localhost:5000/chatGen", {
-        question: textq,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/chatGen`,
+        {
+          question: textq,
+        }
+      );
       if (res.data.success) {
         setContent(res.data.message);
         setTextq("");

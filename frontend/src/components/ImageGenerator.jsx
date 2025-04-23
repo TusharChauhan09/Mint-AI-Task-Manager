@@ -13,9 +13,12 @@ const ImageGenerator = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post("http://localhost:5000/imageGen", {
-        question: imgq,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/imageGen`,
+        {
+          question: imgq,
+        }
+      );
       if (res.data.success) {
         setUrl(res.data.data.url);
         setImgq("");
